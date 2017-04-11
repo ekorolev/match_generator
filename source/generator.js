@@ -322,6 +322,8 @@ const Generator = Game => {
 
 	if ( Game.isBegin() ) {
 		Game.ballOwner("home");
+		Game.home.setCurrentStage("def");
+		Game.guest.setCurrentStage("def");
 
 		// Определяем активность игроков для исполнителя паса
 		let playerFrom = Game.ballOwner().getActive("begin");
