@@ -6,214 +6,214 @@
 	"is_begin": true,
 	"is_end": false,
 	"home": {
-		"name": "Спортинг-89",
+		"name": "Спортинг-26",
 		"players": [
 			{
-				"name": "Оскар",
-				"family": "Ананьев",
-				"power": 58,
-				"age": 22,
+				"name": "Виктор",
+				"family": "Розанов",
+				"power": 60,
+				"age": 34,
 				"position": "GK",
 				"current_position": "GK",
-				"current_power": 58
+				"current_power": 60
 			},
 			{
-				"name": "Мирослав",
-				"family": "Минаев",
-				"power": 36,
-				"age": 27,
+				"name": "Борис",
+				"family": "Селиванов",
+				"power": 60,
+				"age": 16,
 				"position": "LD",
 				"current_position": "LD",
-				"current_power": 36
+				"current_power": 60
 			},
 			{
-				"name": "Виталий",
-				"family": "Токарев",
-				"power": 30,
-				"age": 22,
+				"name": "Борис",
+				"family": "Касьянов",
+				"power": 60,
+				"age": 16,
 				"position": "CD",
 				"current_position": "CD",
-				"current_power": 30
+				"current_power": 60
 			},
 			{
-				"name": "Венедикт",
-				"family": "Какорин",
-				"power": 42,
-				"age": 32,
-				"position": "CD",
-				"current_position": "CD",
-				"current_power": 42
-			},
-			{
-				"name": "Боримир",
-				"family": "Савицкий",
-				"power": 80,
+				"name": "Будимир",
+				"family": "Шишкин",
+				"power": 60,
 				"age": 30,
+				"position": "CD",
+				"current_position": "CD",
+				"current_power": 60
+			},
+			{
+				"name": "Денис",
+				"family": "Зорин",
+				"power": 60,
+				"age": 24,
 				"position": "RD",
 				"current_position": "RD",
-				"current_power": 80
+				"current_power": 60
 			},
 			{
-				"name": "Игорь",
-				"family": "Ширяев",
-				"power": 56,
-				"age": 26,
+				"name": "Макар",
+				"family": "Кукушкин",
+				"power": 60,
+				"age": 23,
 				"position": "LM",
 				"current_position": "LM",
-				"current_power": 56
-			},
-			{
-				"name": "Виталий",
-				"family": "Блинов",
-				"power": 31,
-				"age": 25,
-				"position": "CM",
-				"current_position": "CM",
-				"current_power": 31
+				"current_power": 60
 			},
 			{
 				"name": "Болеслав",
-				"family": "Щеглов",
-				"power": 64,
-				"age": 35,
+				"family": "Хомяков",
+				"power": 60,
+				"age": 16,
 				"position": "CM",
 				"current_position": "CM",
-				"current_power": 64
+				"current_power": 60
 			},
 			{
-				"name": "Макс",
-				"family": "Леонов",
-				"power": 94,
-				"age": 23,
+				"name": "Александр",
+				"family": "Софронов",
+				"power": 60,
+				"age": 16,
+				"position": "CM",
+				"current_position": "CM",
+				"current_power": 60
+			},
+			{
+				"name": "Степан",
+				"family": "Верещагин",
+				"power": 60,
+				"age": 19,
 				"position": "RM",
 				"current_position": "RM",
-				"current_power": 94
+				"current_power": 60
 			},
 			{
-				"name": "Карл",
-				"family": "Кочетков",
-				"power": 50,
-				"age": 31,
+				"name": "Влад",
+				"family": "Черных",
+				"power": 60,
+				"age": 35,
 				"position": "CF",
 				"current_position": "CF",
-				"current_power": 50
+				"current_power": 60
 			},
 			{
-				"name": "Олег",
-				"family": "Маркелов",
-				"power": 37,
-				"age": 28,
+				"name": "Лаврентий",
+				"family": "Дорофеев",
+				"power": 60,
+				"age": 17,
 				"position": "CF",
 				"current_position": "CF",
-				"current_power": 37
+				"current_power": 60
 			}
 		],
-		"current_stage": null
+		"current_stage": "def"
 	},
 	"guest": {
-		"name": "Спортинг-54",
+		"name": "Спортинг-11",
 		"players": [
 			{
-				"name": "Альберт",
-				"family": "Горохов",
-				"power": 48,
-				"age": 34,
+				"name": "Анатолий",
+				"family": "Панин",
+				"power": 60,
+				"age": 20,
 				"position": "GK",
 				"current_position": "GK",
-				"current_power": 48
-			},
-			{
-				"name": "Евдоким",
-				"family": "Кукушкин",
-				"power": 86,
-				"age": 34,
-				"position": "LD",
-				"current_position": "LD",
-				"current_power": 86
-			},
-			{
-				"name": "Герман",
-				"family": "Меркулов",
-				"power": 31,
-				"age": 29,
-				"position": "CD",
-				"current_position": "CD",
-				"current_power": 31
-			},
-			{
-				"name": "Филимон",
-				"family": "Волошин",
-				"power": 74,
-				"age": 26,
-				"position": "CD",
-				"current_position": "CD",
-				"current_power": 74
-			},
-			{
-				"name": "Анатолий",
-				"family": "Суханов",
-				"power": 38,
-				"age": 25,
-				"position": "RD",
-				"current_position": "RD",
-				"current_power": 38
-			},
-			{
-				"name": "Клавдий",
-				"family": "Лапин",
-				"power": 45,
-				"age": 21,
-				"position": "LM",
-				"current_position": "LM",
-				"current_power": 45
-			},
-			{
-				"name": "Альберт",
-				"family": "Горохов",
-				"power": 65,
-				"age": 18,
-				"position": "CM",
-				"current_position": "CM",
-				"current_power": 65
-			},
-			{
-				"name": "Борислав",
-				"family": "Ершов",
-				"power": 91,
-				"age": 17,
-				"position": "CM",
-				"current_position": "CM",
-				"current_power": 91
-			},
-			{
-				"name": "Леонтий",
-				"family": "Лапшин",
-				"power": 79,
-				"age": 23,
-				"position": "RM",
-				"current_position": "RM",
-				"current_power": 79
+				"current_power": 60
 			},
 			{
 				"name": "Виталий",
-				"family": "Петухов",
-				"power": 63,
-				"age": 23,
-				"position": "CF",
-				"current_position": "CF",
-				"current_power": 63
+				"family": "Зорин",
+				"power": 60,
+				"age": 35,
+				"position": "LD",
+				"current_position": "LD",
+				"current_power": 60
 			},
 			{
-				"name": "Артур",
+				"name": "Фёдор",
+				"family": "Ткачев",
+				"power": 60,
+				"age": 32,
+				"position": "CD",
+				"current_position": "CD",
+				"current_power": 60
+			},
+			{
+				"name": "Аполлон",
+				"family": "Покровский",
+				"power": 60,
+				"age": 32,
+				"position": "CD",
+				"current_position": "CD",
+				"current_power": 60
+			},
+			{
+				"name": "Пётр",
 				"family": "Муравьев",
-				"power": 32,
-				"age": 18,
+				"power": 60,
+				"age": 33,
+				"position": "RD",
+				"current_position": "RD",
+				"current_power": 60
+			},
+			{
+				"name": "Влад",
+				"family": "Гуров",
+				"power": 60,
+				"age": 19,
+				"position": "LM",
+				"current_position": "LM",
+				"current_power": 60
+			},
+			{
+				"name": "Серафим",
+				"family": "Зуев",
+				"power": 60,
+				"age": 27,
+				"position": "CM",
+				"current_position": "CM",
+				"current_power": 60
+			},
+			{
+				"name": "Богдан",
+				"family": "Буров",
+				"power": 60,
+				"age": 25,
+				"position": "CM",
+				"current_position": "CM",
+				"current_power": 60
+			},
+			{
+				"name": "Август",
+				"family": "Успенский",
+				"power": 60,
+				"age": 34,
+				"position": "RM",
+				"current_position": "RM",
+				"current_power": 60
+			},
+			{
+				"name": "Максим",
+				"family": "Покровский",
+				"power": 60,
+				"age": 25,
 				"position": "CF",
 				"current_position": "CF",
-				"current_power": 32
+				"current_power": 60
+			},
+			{
+				"name": "Лаврентий",
+				"family": "Суслов",
+				"power": 60,
+				"age": 21,
+				"position": "CF",
+				"current_position": "CF",
+				"current_power": 60
 			}
 		],
-		"current_stage": null
+		"current_stage": "def"
 	},
-	"ball_owner": null
+	"ball_owner": "home"
 }

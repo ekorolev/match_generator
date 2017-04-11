@@ -15,7 +15,7 @@ const Generator = options => {
 	let players = [];
 
 	for ( let index = 0; index < 11; ++index ) {
-		players.push(playersGenerator({position: scheme[index]}));
+		players.push(playersGenerator({position: scheme[index], power: 60}));
 	}
 
 	return {

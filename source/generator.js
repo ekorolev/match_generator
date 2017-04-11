@@ -28,6 +28,32 @@ const ActivityTable = {
 		}		
 	},
 
+	"versusPass": {
+		"def": {
+			"1": ["LD", "CD", "RD"],
+			"2": ["DM"],
+			"3": [],
+			"4": [],
+			"5": []
+		},
+
+		"mdef": {
+			"1": ["DM", "LM", "CM", "RM", "AM"],
+			"2": [],
+			"3": [],
+			"4": [],
+			"5": []
+		},
+
+		"att": {
+			"1": ["CF", "LF", "RF"],
+			"2": ["AM"],
+			"3": [],
+			"4": [],
+			"5": []
+		}
+	},
+
 	"begin": {
 		"1": ["LF", "CF", "RF", "AM"],
 		"2": ["CM"],
@@ -37,6 +63,23 @@ const ActivityTable = {
 	}
 
 }
+
+/* Таблица антонимов для зон */
+
+const ZoneAntonim = {
+	"def": "att",
+	"mdef": "mdef",
+	"att": "def"
+}
+
+/* Модификатор отбора мяча
+	В какой стадии игры лучше всего отбирается мяч */
+
+const Modificator = {
+	"def": 0.1,
+	"mdef": 0.65,
+	"att": 1
+};
 
 
 /*	===================================
@@ -144,6 +187,7 @@ class Teams {
 	// Определяем игрока, который будет исполнителем ситуации
 	getActive ( type, opt1, opt2 ) {
 		let Result;
+		let zone;
 
 		switch (type) {
 
@@ -173,7 +217,7 @@ class Teams {
 
 			// Определяем игрока, которому придёт пас в назначенную зону поля
 			case "passTo":
-				let zone = opt1; // Зона куда идет пас
+				zone = opt1; // Зона куда идет пас
 				let passFrom = opt2; // От кого пас
 
 				// Пробегаемся по игрокам и назначаем базовую активность
@@ -207,6 +251,36 @@ class Teams {
 					}
 				});
 
+			break;
+
+			case "versusPass": 
+				zone = opt1; // Зона куда идет пас
+
+				// Пробегаемся по игрокам и назначаем базовую активность
+				this.players.forEach( player => {
+
+					player.activeValue = 0;
+
+					for (let i = 0; i < 5; ++i ) {
+						if (ActivityTable["versusPass"][zone][i+1].indexOf(player.pos())+1) {
+							player.activeValue += 100 - i*10;
+						}
+					}
+
+					// Узнаем про силу.
+					player.activeValue += ( player.getPower() / player.getTeam().getAverage() -1 ) * 10;
+
+					// Добавляем рандомчика
+					player.activeValue += Math.floor( Math.random() * 30 );
+				});
+
+				// Выбираем максимального по активности игрока
+				Result = { activeValue: 0 };
+				this.players.forEach( ( player, index ) => {
+					if ( player.activeValue > Result.activeValue ) {
+						Result = player;
+					}
+				});
 			break;
 		}
 
@@ -276,11 +350,20 @@ class Games {
 		// Назначаем команду
 		if (owner) {
 			this.ball_owner = this[owner];
+			this.ball_owner_text = owner;
 			return this.ball_owner;
 		}
 		// Возвращаем команду
 		if ( !owner ) {
 			return this.ball_owner;
+		}
+	}
+
+	ballNotOwner () {
+		if ( this.ball_owner_text == "home" ) {
+			return this.guest;
+		} else {
+			return this.home;
 		}
 	}
 
@@ -310,6 +393,21 @@ class Games {
 	}
 }
 
+/*  ===================================
+		Функция - борьба двух сил
+
+		Возвращает TRUE, если победила первая сила
+					FALSE, если победила вторавя сила
+	===================================*/
+
+const Fight = (power1, power2) => {
+	let summ = power1 + power2;
+	let point = Math.floor( Math.random() * summ );
+
+	if (point < power1) return true;
+	if (point >= power1) return false;
+}
+
 /*	===================================
 
 		Функция - генератор
@@ -332,9 +430,28 @@ const Generator = Game => {
 		let playerTo = Game.ballOwner().getActive("passTo", "def", playerFrom);
 
 		event = "pass";
-		eventOptions = { from: playerFrom, to: playerTo };
+		eventOptions = { from: playerFrom, to: playerTo, zoneTo: "def" };
 
 		Game.system_log(`${playerFrom.text()} будет давать пас ${playerTo.text()}`);
+	}
+
+	if ( event == "pass" ) {
+		let zoneVersus = ZoneAntonim[eventOptions.zoneTo];
+		let versusPlayer = Game.ballNotOwner().getActive("versusPass", zoneVersus);
+
+		Game.system_log(`${versusPlayer.text()} будет мешать игроку ${eventOptions.from.text()} дать пас ${eventOptions.to.text()}`);
+	
+		let versusPower = versusPlayer.getPower() * Modificator[eventOptions.zoneTo];
+		let rightPower = (eventOptions.from.getPower() + eventOptions.to.getPower()) / 2;
+		let fightResult = Fight(rightPower, versusPower);
+		if ( fightResult ) {
+
+			Game.system_log(`Пас прошел успешно, мяч у игрока ${eventOptions.to.text()}`);
+		} else {
+
+			Game.system_log(`Потеря мяча, он теперь у игрока ${versusPlayer.text()}`);
+		}
+
 	}
 
 }
