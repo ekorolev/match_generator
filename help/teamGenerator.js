@@ -7,10 +7,25 @@ const scheme = [
       "CF", "CF"
 ];
 
+const NAMES = [
+	"Спортинг",
+	"Атлетико",
+	"Зенит",
+	"Динамо",
+	"Заря",
+	"Луч",
+	"Каспий",
+	"Комсомолец",
+	"Локомотив",
+	"ЦСКА",
+	"Мотор",
+	"Уралец"
+]
+
 const Generator = options => {
 	options = options || {};
 
-	let name		= options.name || "Спортинг-"+(Math.floor(Math.random()*98)+1);
+	let name		= options.name || NAMES[ Math.floor(Math.random()*NAMES.length)]+"-"+(Math.floor(Math.random()*89)+10);
 
 	let players = [];
 

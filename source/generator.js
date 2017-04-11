@@ -81,6 +81,13 @@ const Modificator = {
 	"att": 1
 };
 
+const guidGenerator = () => {
+    let S4 = () => {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
+
 
 /*	===================================
 
@@ -90,6 +97,8 @@ const Modificator = {
 class Players {
 
 	constructor ( json, parameters ) {
+		this.uid				= json.uid || guidGenerator();
+
 		this.name 				= json.name;
 		this.family 			= json.family;
 		this.power 				= json.power;
@@ -130,7 +139,8 @@ class Players {
 			age: 				this.age,
 			position: 			this.position,
 			current_position: 	this.current_position,
-			current_power: 		this.current_power
+			current_power: 		this.current_power,
+			uid: 				this.uid
 		}
 	}
 }
@@ -331,8 +341,40 @@ class Games {
 		this.ball_owner 		= this[json.ball_owner] || null;
 		this.ball_owner_text	= json.ball_owner || null;
 
+		// Определение игрока, владеющего мячом
+		this.player_owner_uid 	= json.player_owner_uid;
+		this.player_owner 		= null;
+
 		// Назначаем функцию-ведение лога
 		this.system_log			= parameters.log;
+	}
+
+	increaseMinute() {
+		++this.current_minute;
+		if ( this.is_begin ) this.is_begin = false;
+	}
+
+	// Ищем игрока по его UID
+	findPlayerByUID ( uid ) {
+		let Result = null;
+
+		this.home.players.forEach( player => {
+			if (player.uid == uid) {
+				Result = player;
+				return;
+			}
+		});
+
+		if (Result) return Result;
+
+		this.guest.players.forEach( player => {
+			if (player.uid == uid) {
+				Result = player;
+				return;
+			}
+		})
+
+		return Result;
 	}
 
 	// Печатаем основную информацию об игре
@@ -345,19 +387,53 @@ class Games {
 		this.system_log(`\n===================================\n\n`);
 	}
 
+	// Устанавливаем или возвращаем владельца мяча
+	playerOwner( player ) {
+		if (!player) {
+			if ( !this.player_owner ) this.player_owner = this.findPlayerByUID(this.player_owner_uid);
+			return this.player_owner;
+		}
+
+		if (player && typeof player == "string") {
+			this.player_owner = this.findPlayerByUID(player);
+			this.player_owner_uid = player;
+			return this.player_owner;
+		}
+
+		if (player && typeof player == "object") {
+			this.player_owner = player;
+			this.player_owner_uid = player.uid;
+			return this.player_owner;
+		}
+
+		if (player) {
+			this.ballOwner( this.player_owner.getTeam() );
+		}
+
+	}
+
 	// Операции с командой, владеющей мячом
 	ballOwner ( owner ) {
-		// Назначаем команду
-		if (owner) {
+		// Назначаем команду по строке
+		if (owner && typeof owner == "string") {
 			this.ball_owner = this[owner];
 			this.ball_owner_text = owner;
 			return this.ball_owner;
 		}
+		// Назначаем команду по объекту
+		if (owner && typeof owner == "object") {
+			this.ball_owner = owner;
+			this.ball_owner_text = Object.is(owner, this.home) ? "home" : guest;
+			return this.ball_owner;
+		}
+
 		// Возвращаем команду
 		if ( !owner ) {
 			return this.ball_owner;
 		}
 	}
+
+
 
 	ballNotOwner () {
 		if ( this.ball_owner_text == "home" ) {
@@ -388,7 +464,8 @@ class Games {
 			guest: 				this.guest.toJSON(),
 			ball_owner: 		this.ball_owner_text,
 			next_event: 		this.next_event,
-			next_event_options: this.next_event_options
+			next_event_options: this.next_event_options,
+			player_owner_uid: 	this.player_owner_uid
 		}
 	}
 }
@@ -435,6 +512,10 @@ const Generator = Game => {
 		Game.system_log(`${playerFrom.text()} будет давать пас ${playerTo.text()}`);
 	}
 
+	if (!Game.isBegin()) {
+		Game.system_log(`Мяч находится у игрока ${Game.playerOwner().text()}, команда в стадии ${Game.ballOwner().current_stage}`)
+	}
+
 	if ( event == "pass" ) {
 		let zoneVersus = ZoneAntonim[eventOptions.zoneTo];
 		let versusPlayer = Game.ballNotOwner().getActive("versusPass", zoneVersus);
@@ -447,12 +528,18 @@ const Generator = Game => {
 		if ( fightResult ) {
 
 			Game.system_log(`Пас прошел успешно, мяч у игрока ${eventOptions.to.text()}`);
+			Game.playerOwner(eventOptions.to);
+
 		} else {
 
 			Game.system_log(`Потеря мяча, он теперь у игрока ${versusPlayer.text()}`);
+			Game.playerOwner(versusPlayer);
 		}
 
 	}
+
+	// Пересчитываем параметры игры.
+	Game.increaseMinute();
 
 }
 
@@ -460,7 +547,7 @@ const Start = MatchJSON => {
 
 	let Game = new Games( MatchJSON, { log: console.log } );
 	
-	Game.showInfo();	
+	Game.showInfo();
 	Generator( Game );
 	Game.showInfo();
 
