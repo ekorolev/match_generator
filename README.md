@@ -13,6 +13,8 @@
   current_time: Number, // Текущий тайм (1 или 2)
   is_begin: Boolean, // true, если матч еще не начался
   is_end: Boolean, // true, если матч уже закончился
+
+  ball_owner: String, // "home" или "guest". Указывает на то, какая команда владеет сейчас мячом
   
   home_score: Number, // Количество мячей, забитых домашней командой
   guest_score: Number, // Количество мячей, забитых гостевой командой
@@ -27,6 +29,9 @@
 ```Javascript
 {
   name: String, // Название команды
+
+  current_stage: String, // Положение команды на поле: "def", "mdef", "att" или null
+
   players: Array // Массив игроков (11 штук)
 }
 ```

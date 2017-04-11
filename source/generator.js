@@ -40,13 +40,15 @@ class Teams {
 
 	constructor ( json ) {
 		this.name 				= json.name;
+		this.current_stage		= json.current_stage || null;
 		this.players 			= json.players.map( player_json => new Players(player_json) );
 	}
 
 	toJSON () {
 		return {
-			name: 		this.name,
-			players: 	this.players.map(player => player.toJSON())
+			name: 			this.name,
+			players: 		this.players.map(player => player.toJSON()),
+			current_stage: 	this.current_stage
 		}
 	}
 
@@ -71,7 +73,16 @@ class Games {
 		this.home 				= new Teams( json.home );
 		this.guest 				= new Teams( json.guest );
 
+		this.ball_owner 		= this[json.ball_owner] || null;
+		this.ball_owner_text	= json.ball_owner || null;
+
 		this.system_log			= parameters.log;
+	}
+
+	// Меняем команду, которая владеет мячом
+	setBallOwner (owner) {
+		this.ball_owner = this[ball_owner];
+		this.ball_owner_text = ball_owner;
 	}
 
 	// Печатаем основную информацию об игре
@@ -102,7 +113,8 @@ class Games {
 			is_begin: 			this.is_begin,
 			is_end: 			this.is_end,
 			home: 				this.home.toJSON(),
-			guest: 				this.guest.toJSON()
+			guest: 				this.guest.toJSON(),
+			ball_owner: 		this.ball_owner_text
 		}
 	}
 }
@@ -114,6 +126,10 @@ class Games {
 	=================================== */
 
 const Generator = Game => {
+
+	if ( Game.isBegin() ) {
+		
+	}
 
 }
 
