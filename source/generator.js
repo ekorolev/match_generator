@@ -213,6 +213,18 @@ class Teams {
 		return summ / amount;
 	}
 
+	// Вернуть вратаря команды
+	getGK() {
+		let gk = null;
+		this.players.forEach( player => {
+			if ( player.pos() == "GK" ) {
+				gk = player;
+				return;
+			}
+		});
+		return gk;
+	}
+
 	// Определяем игрока, который будет исполнителем ситуации
 	getActive ( type, opt1, opt2 ) {
 		let Result;
@@ -368,6 +380,16 @@ class Games {
 		this.system_log			= parameters.log;
 	}
 
+	// Подготавливаем eventOptions
+	prepareEventOptions() {
+		if (this.next_event_options ) {
+			if ( this.next_event_options.from ) 
+				this.next_event_options.from = this.findPlayerByUID( this.eventOptions.from );
+			if ( this.next_event_options.to )
+				this.next_event_options.to = this.findPlayerByUID( this.eventOptions.to );
+		}
+	}
+
 	increaseMinute() {
 		++this.current_minute;
 		if ( this.is_begin ) this.is_begin = false;
@@ -476,7 +498,7 @@ class Games {
 
 	// Преобразуем объект в json
 	toJSON () {
-		return {
+		let return_object = {
 			current_minute: 	this.current_minute,
 			current_time: 		this.current_time,
 			home_score: 		this.home_score,
@@ -487,9 +509,22 @@ class Games {
 			guest: 				this.guest.toJSON(),
 			ball_owner: 		this.ball_owner_text,
 			next_event: 		this.next_event,
-			next_event_options: this.next_event_options,
-			player_owner_uid: 	this.player_owner_uid
+			player_owner_uid: 	this.player_owner_uid			
 		}
+
+		if ( this.next_event_options ) {
+			return_object.next_event_options = this.next_event_options;
+
+			if (this.next_event_options.from) {
+				return_object.next_event_options.from = this.next_event_options.from.uid;
+			}
+
+			if (this.next_event_options.to) {
+				return_object.next_event_options.to = this.next_event_options.to.uid;
+			}
+		}
+
+		return return_object;
 	}
 }
 
@@ -515,6 +550,7 @@ const Fight = (power1, power2) => {
 	=================================== */
 
 const Generator = Game => {
+	Game.prepareEventOptions();
 	let event 			= Game.next_event 			|| null	; // Действие
 	let eventOptions	= Game.next_event_options 	|| {}	; // Параметры действия
 	Game.next_event 	= null;
@@ -549,6 +585,30 @@ const Generator = Game => {
 				from: playerFrom,
 				to: playerTo,
 				zoneTo: FromToZoneTable["forward"][Game.ballOwner().current_stage]
+			}
+		}
+
+		// Реализуем удар по воротам
+		if ( Game.playerOwner() && Game.ballOwner().current_stage == "att" ) {
+
+			let ShootPlayer = Game.playerOwner();
+			let KeepPlayer = Game.ballNotOwner().getGK();
+
+			Game.system_log(`Owner: ${ShootPlayer.text()}`);
+			Game.system_log(`GK: ${KeepPlayer.text()}`);
+			Game.system_log(`Goal shoot.`);
+
+
+			let playerShootPower = ShootPlayer.getPower();
+			let playerKeepPower = KeepPlayer.getPower();
+
+			let fightResult = Fight( playerShootPower, playerKeepPower );
+			if (fightResult) {
+				Game.system_log(`Goal!`);
+			}
+
+			if (!fightResult) {
+				Game.system_log(`Fail!`)
 			}
 		}
 	}
