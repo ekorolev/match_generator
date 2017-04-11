@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const createMatch = require("./help/createMatch");
 const Generator = require("./source/generator");
 
 const Start = () => {
