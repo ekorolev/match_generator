@@ -1,3 +1,6 @@
 {
-	"author": "Korolev Evgeni"
+	"author": "Korolev Evgeni",
+	"scripts": {
+		"start": "node ./index",
+	}
 }

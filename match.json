@@ -1,0 +1,216 @@
+{
+	"current_minute": 0,
+	"current_time": 1,
+	"home_score": 0,
+	"guest_score": 0,
+	"is_begin": true,
+	"is_end": false,
+	"home": {
+		"name": "Спортинг-38",
+		"players": [
+			{
+				"name": "Виктор",
+				"family": "Ершов",
+				"power": 52,
+				"age": 26,
+				"position": "GK",
+				"current_position": "GK",
+				"current_power": 52
+			},
+			{
+				"name": "Степан",
+				"family": "Усов",
+				"power": 64,
+				"age": 26,
+				"position": "LD",
+				"current_position": "LD",
+				"current_power": 64
+			},
+			{
+				"name": "Кир",
+				"family": "Горбунов",
+				"power": 67,
+				"age": 17,
+				"position": "CD",
+				"current_position": "CD",
+				"current_power": 67
+			},
+			{
+				"name": "Виктор",
+				"family": "Зотов",
+				"power": 40,
+				"age": 17,
+				"position": "CD",
+				"current_position": "CD",
+				"current_power": 40
+			},
+			{
+				"name": "Оскар",
+				"family": "Чижов",
+				"power": 80,
+				"age": 35,
+				"position": "RD",
+				"current_position": "RD",
+				"current_power": 80
+			},
+			{
+				"name": "Александр",
+				"family": "Суворов",
+				"power": 89,
+				"age": 29,
+				"position": "LM",
+				"current_position": "LM",
+				"current_power": 89
+			},
+			{
+				"name": "Святослав",
+				"family": "Коровин",
+				"power": 72,
+				"age": 18,
+				"position": "CM",
+				"current_position": "CM",
+				"current_power": 72
+			},
+			{
+				"name": "Валерий",
+				"family": "Кравцов",
+				"power": 33,
+				"age": 17,
+				"position": "CM",
+				"current_position": "CM",
+				"current_power": 33
+			},
+			{
+				"name": "Виссарион",
+				"family": "Комиссаров",
+				"power": 72,
+				"age": 35,
+				"position": "RM",
+				"current_position": "RM",
+				"current_power": 72
+			},
+			{
+				"name": "Филимон",
+				"family": "Одинцов",
+				"power": 58,
+				"age": 29,
+				"position": "CF",
+				"current_position": "CF",
+				"current_power": 58
+			},
+			{
+				"name": "Велислав",
+				"family": "Овсянников",
+				"power": 61,
+				"age": 31,
+				"position": "CF",
+				"current_position": "CF",
+				"current_power": 61
+			}
+		]
+	},
+	"guest": {
+		"name": "Спортинг-1",
+		"players": [
+			{
+				"name": "Валерий",
+				"family": "Муравьев",
+				"power": 64,
+				"age": 30,
+				"position": "GK",
+				"current_position": "GK",
+				"current_power": 64
+			},
+			{
+				"name": "Арсений",
+				"family": "Воронков",
+				"power": 97,
+				"age": 30,
+				"position": "LD",
+				"current_position": "LD",
+				"current_power": 97
+			},
+			{
+				"name": "Виссарион",
+				"family": "Дорохов",
+				"power": 55,
+				"age": 16,
+				"position": "CD",
+				"current_position": "CD",
+				"current_power": 55
+			},
+			{
+				"name": "Мирослав",
+				"family": "Калугин",
+				"power": 97,
+				"age": 26,
+				"position": "CD",
+				"current_position": "CD",
+				"current_power": 97
+			},
+			{
+				"name": "Леонард",
+				"family": "Фетисов",
+				"power": 31,
+				"age": 17,
+				"position": "RD",
+				"current_position": "RD",
+				"current_power": 31
+			},
+			{
+				"name": "Леонид",
+				"family": "Королев",
+				"power": 53,
+				"age": 29,
+				"position": "LM",
+				"current_position": "LM",
+				"current_power": 53
+			},
+			{
+				"name": "Глеб",
+				"family": "Высоцкий",
+				"power": 59,
+				"age": 17,
+				"position": "CM",
+				"current_position": "CM",
+				"current_power": 59
+			},
+			{
+				"name": "Леонард",
+				"family": "Хохлов",
+				"power": 88,
+				"age": 34,
+				"position": "CM",
+				"current_position": "CM",
+				"current_power": 88
+			},
+			{
+				"name": "Лаврентий",
+				"family": "Никитин",
+				"power": 96,
+				"age": 34,
+				"position": "RM",
+				"current_position": "RM",
+				"current_power": 96
+			},
+			{
+				"name": "Анатолий",
+				"family": "Меркулов",
+				"power": 74,
+				"age": 17,
+				"position": "CF",
+				"current_position": "CF",
+				"current_power": 74
+			},
+			{
+				"name": "Сергей",
+				"family": "Ежов",
+				"power": 36,
+				"age": 27,
+				"position": "CF",
+				"current_position": "CF",
+				"current_power": 36
+			}
+		]
+	}
+}
