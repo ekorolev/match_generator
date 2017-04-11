@@ -64,6 +64,23 @@ const ActivityTable = {
 
 }
 
+/*
+	Таблица перехода зон "вперед" и "назад"
+*/
+
+const FromToZoneTable = {
+	"forward": {
+		"def": "mdef",
+		"mdef": "att",
+		"att": "att"
+	},
+	"back": {
+		"att": "mdef",
+		"mdef": "def",
+		"def": "def"
+	}
+};
+
 /* Таблица антонимов для зон */
 
 const ZoneAntonim = {
@@ -86,7 +103,8 @@ const guidGenerator = () => {
        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
     };
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-}
+};
+
 
 
 /*	===================================
@@ -179,6 +197,7 @@ class Teams {
 			break;
 
 			default:
+				console.log(stage);
 				throw new Error("Unknow type of team stage");
 		}
 	}
@@ -389,26 +408,30 @@ class Games {
 
 	// Устанавливаем или возвращаем владельца мяча
 	playerOwner( player ) {
+		let result = null;
+
 		if (!player) {
 			if ( !this.player_owner ) this.player_owner = this.findPlayerByUID(this.player_owner_uid);
-			return this.player_owner;
+			result = this.player_owner;
 		}
 
 		if (player && typeof player == "string") {
 			this.player_owner = this.findPlayerByUID(player);
 			this.player_owner_uid = player;
-			return this.player_owner;
+			result = this.player_owner;
 		}
 
 		if (player && typeof player == "object") {
 			this.player_owner = player;
 			this.player_owner_uid = player.uid;
-			return this.player_owner;
+			result =  this.player_owner;
 		}
 
 		if (player) {
 			this.ballOwner( this.player_owner.getTeam() );
 		}
+
+		return result;
 
 	}
 
@@ -423,7 +446,7 @@ class Games {
 		// Назначаем команду по объекту
 		if (owner && typeof owner == "object") {
 			this.ball_owner = owner;
-			this.ball_owner_text = Object.is(owner, this.home) ? "home" : guest;
+			this.ball_owner_text = Object.is(owner, this.home) ? "home" : "guest";
 			return this.ball_owner;
 		}
 
@@ -494,6 +517,8 @@ const Fight = (power1, power2) => {
 const Generator = Game => {
 	let event 			= Game.next_event 			|| null	; // Действие
 	let eventOptions	= Game.next_event_options 	|| {}	; // Параметры действия
+	Game.next_event 	= null;
+	Game.next_event_options = null;
 
 	if ( Game.isBegin() ) {
 		Game.ballOwner("home");
@@ -508,32 +533,46 @@ const Generator = Game => {
 
 		event = "pass";
 		eventOptions = { from: playerFrom, to: playerTo, zoneTo: "def" };
-
-		Game.system_log(`${playerFrom.text()} будет давать пас ${playerTo.text()}`);
 	}
 
 	if (!Game.isBegin()) {
-		Game.system_log(`Мяч находится у игрока ${Game.playerOwner().text()}, команда в стадии ${Game.ballOwner().current_stage}`)
+	
+		// Реализуем пас вперед
+		if ( Game.playerOwner() && Game.ballOwner().current_stage != "att" ) {
+			Game.system_log(`Owner: ${Game.playerOwner().text()}`)
+			Game.system_log(`Team stage: ${Game.ballOwner().current_stage}`);
+
+			let playerFrom = Game.playerOwner();
+			let playerTo = Game.ballOwner().getActive("passTo", FromToZoneTable["forward"][Game.ballOwner().current_stage], playerFrom);
+			event = "pass";
+			eventOptions = {
+				from: playerFrom,
+				to: playerTo,
+				zoneTo: FromToZoneTable["forward"][Game.ballOwner().current_stage]
+			}
+		}
 	}
 
 	if ( event == "pass" ) {
 		let zoneVersus = ZoneAntonim[eventOptions.zoneTo];
 		let versusPlayer = Game.ballNotOwner().getActive("versusPass", zoneVersus);
 
-		Game.system_log(`${versusPlayer.text()} будет мешать игроку ${eventOptions.from.text()} дать пас ${eventOptions.to.text()}`);
-	
+		Game.system_log(`${eventOptions.from.text()} -> ${eventOptions.to.text()} X ${versusPlayer.text()}`);
+
 		let versusPower = versusPlayer.getPower() * Modificator[eventOptions.zoneTo];
 		let rightPower = (eventOptions.from.getPower() + eventOptions.to.getPower()) / 2;
 		let fightResult = Fight(rightPower, versusPower);
 		if ( fightResult ) {
 
-			Game.system_log(`Пас прошел успешно, мяч у игрока ${eventOptions.to.text()}`);
+			Game.system_log(`Done! Owner -> ${eventOptions.to.text()}`);
 			Game.playerOwner(eventOptions.to);
+			Game.ballOwner().setCurrentStage(eventOptions.zoneTo);
 
 		} else {
 
-			Game.system_log(`Потеря мяча, он теперь у игрока ${versusPlayer.text()}`);
+			Game.system_log(`Fail! Owner -> ${versusPlayer.text()}`);
 			Game.playerOwner(versusPlayer);
+			Game.ballNotOwner().setCurrentStage(FromToZoneTable["back"][Game.ballNotOwner().current_stage]);
 		}
 
 	}
